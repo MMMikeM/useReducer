@@ -1,4 +1,5 @@
 import { createContext, useState } from "react"
+import { Provider } from "react-redux"
 import {
   Route,
   Routes,
@@ -12,8 +13,14 @@ import Signup from "./components/signup"
 import Userpage from "./components/Userpage"
 import Felte from "./pages/felte"
 import FormikValidate from "./pages/formikvalidate"
+import Redux from "./pages/redux"
+import Redux2 from "./pages/redux2"
+import Redux3 from "./pages/redux3"
+import Rtk from "./pages/rtk"
 import UsehookForm from "./pages/useHook"
 import User from "./pages/user"
+import store from "./reduxStore"
+import { rtkstore } from "./reduxStore/rtkstore"
 
 export const UserContext = createContext<any | null>(null)
 
@@ -68,7 +75,7 @@ function App() {
           }
         >
           <Route
-            path="forms*"
+            path="forms/*"
             element={
               <div className="flex flex-col">
                 <h1 className="text-5xl font-bold">Forms</h1>
@@ -84,6 +91,26 @@ function App() {
       </Routes>
 
       <Routes>
+        <Route path="redux" element={<Redux />} />
+        <Route
+          path="rtk"
+          element={
+            <Provider store={rtkstore}>
+              <Rtk />
+            </Provider>
+          }
+        />
+
+        <Route
+          element={
+            <Provider store={store}>
+              <Outlet />
+            </Provider>
+          }
+        >
+          <Route path="redux2" element={<Redux2 />} />
+          <Route path="redux3" element={<Redux3 />} />
+        </Route>
         <Route path="forms" element={<Card />}>
           <Route path="formik" element={<FormikValidate />} />
           <Route path="felte" element={<Felte />} />
